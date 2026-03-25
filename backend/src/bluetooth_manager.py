@@ -1,4 +1,5 @@
 from asyncio import CancelledError, create_task, Event, Lock, sleep, Task
+from time import time
 
 from bleak import BleakClient
 
@@ -15,6 +16,10 @@ class BluetoothManager:
         self._connect_task : Task | None        = None
         self._write_lock   : Lock               = Lock()
         self._stop_event   : Event              = Event()
+        self._start_time   : float              = 0.0
+
+    def get_time(self) -> int:
+        return round((time() - self._start_time if self._start_time else 0.0) * 1000)
 
     async def send_packet(self, packet: bytes) -> None:
         async with self._write_lock:
@@ -23,6 +28,8 @@ class BluetoothManager:
 
             for i in range(0, len(packet), config.MAX_PACKET_SIZE):
                 chunk = packet[i:i + config.MAX_PACKET_SIZE]
+
+                log_debug(f'Sending packet chunk: {chunk.hex()}')
 
                 await self._client.write_gatt_char(config.WRITE_UUID, chunk, response=True)
 
@@ -63,9 +70,12 @@ class BluetoothManager:
 
                 log_debug('Connected to Bluetooth device.')
 
+                self._start_time = time()
+
                 await self._client.start_notify(config.NOTIFY_UUID, self._notification_handler)
 
                 log_debug('Subscribed to notifications.')
+            # pylint: disable=broad-exception-caught
             except Exception as e:
                 log_error(e)
 
@@ -87,5 +97,6 @@ class BluetoothManager:
                 await self._client.disconnect()
 
                 log_debug('Disconnected from Bluetooth device.')
+        # pylint: disable=broad-exception-caught
         except Exception as e:
             log_error(e)

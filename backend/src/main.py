@@ -1,11 +1,11 @@
 from contextlib import asynccontextmanager
 from enum import StrEnum
 
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, File, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from .bluetooth_manager import BluetoothManager
-from .commands import PowerCommand
+from .commands import GifCommand, PowerCommand
 from .config import Config
 from .logging import log_error
 from .packet_builder import PacketBuilder
@@ -40,5 +40,17 @@ async def set_power(state: PowerState):
         await bluetooth_manager.send_packet(packet_builder.build_packet(PowerCommand(state == PowerState.ON)))
 
         return Response(status_code=200)
+    # pylint: disable=broad-exception-caught
+    except Exception as e:
+        log_error(e)
+
+
+@app.post('/api/v1/gif')
+async def send_gif(file: UploadFile = File(...)):
+    try:
+        await bluetooth_manager.send_packet(packet_builder.build_packet(GifCommand(bluetooth_manager.get_time(), await file.read())))
+
+        return Response(status_code=200)
+    # pylint: disable=broad-exception-caught
     except Exception as e:
         log_error(e)
