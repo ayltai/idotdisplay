@@ -1,10 +1,12 @@
-import random
 from contextlib import asynccontextmanager
 from enum import StrEnum
+from os import path
+from random import randrange
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI, File, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from .bluetooth_manager import BluetoothManager
 from .clock import draw_clock
@@ -26,6 +28,15 @@ packet_builder    = PacketBuilder()
 scheduler         = AsyncIOScheduler()
 
 
+class SpaStaticFiles(StaticFiles):
+    # pylint: disable=redefined-outer-name
+    def lookup_path(self, path: str):
+        full_path, stat_result = super().lookup_path(path)
+        if stat_result is None:
+            full_path, stat_result = super().lookup_path('index.html')
+        return full_path, stat_result
+
+
 class PowerState(StrEnum):
     ON  = 'on'
     OFF = 'off'
@@ -43,11 +54,9 @@ async def lifespan(_: FastAPI):
 
     scheduler.start()
 
-    scheduler.pause_job(JOB_CLOCK)
     scheduler.pause_job(JOB_ARTS)
     scheduler.pause_job(JOB_GAMES)
     scheduler.pause_job(JOB_SEASONS)
-    scheduler.resume_job(JOB_KEEP_ALIVE)
 
     try:
         yield
@@ -57,7 +66,7 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(title='iDot Display API Server', lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_headers=['*'], allow_methods=['*'], allow_origins=['*'])
-
+app.mount('/web', SpaStaticFiles(directory=path.join(path.dirname(__file__), '..', 'web'), html=True), name='web')
 
 @app.get('/api/v1/keep-alive')
 async def keep_alive():
@@ -98,7 +107,7 @@ async def send_gif(file: UploadFile = File(...)):
 
 @app.get('/api/v1/arts')
 async def send_arts():
-    return await _send_gif(PATH_IMAGE_ARTS[random.randrange(0, len(PATH_IMAGE_ARTS))].read_bytes())
+    return await _send_gif(PATH_IMAGE_ARTS[randrange(0, len(PATH_IMAGE_ARTS))].read_bytes())
 
 
 @app.post('/api/v1/arts')
@@ -122,7 +131,7 @@ async def stop_arts():
 
 @app.get('/api/v1/games')
 async def send_games():
-    return await _send_gif(PATH_IMAGE_GAMES[random.randrange(0, len(PATH_IMAGE_GAMES))].read_bytes())
+    return await _send_gif(PATH_IMAGE_GAMES[randrange(0, len(PATH_IMAGE_GAMES))].read_bytes())
 
 
 @app.post('/api/v1/games')
@@ -146,7 +155,7 @@ async def stop_games():
 
 @app.get('/api/v1/seasons')
 async def send_seasons():
-    return await _send_gif(PATH_IMAGE_SEASONS[random.randrange(0, len(PATH_IMAGE_SEASONS))].read_bytes())
+    return await _send_gif(PATH_IMAGE_SEASONS[randrange(0, len(PATH_IMAGE_SEASONS))].read_bytes())
 
 
 @app.post('/api/v1/seasons')

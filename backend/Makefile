@@ -2,7 +2,7 @@ dev:
 	python -m fastapi dev src/main.py --host=0.0.0.0 --port=18000
 
 prod:
-	uvicorn src.main:app --host 0.0.0.0
+	uvicorn src.main:app --host 0.0.0.0 --port 18000
 
 venv:
 	python3 -m venv venv

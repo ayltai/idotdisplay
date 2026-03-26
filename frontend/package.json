@@ -1,0 +1,71 @@
+{
+    "name"            : "idotdisplay",
+    "version"         : "0.0.1",
+    "author"          : {
+        "name" : "Alan Tai"
+    },
+    "repository"      : {
+        "type" : "git",
+        "url"  : "https://github.com/ayltai/idotdisplay.git"
+    },
+    "bugs"            : {
+        "url" : "https://github.com/ayltai/idotdisplay/issues"
+    },
+    "keywords"        : [
+        "idot",
+        "idotmatrix",
+        "pixelart"
+    ],
+    "license"         : "MIT",
+    "type"            : "module",
+    "scripts"         : {
+        "clean"   : "pnpm dlx rimraf --glob **/node_modules/* pnpm-lock.yaml",
+        "reset"   : "pnpm clean && pnpm i && pnpm audit -P",
+        "lint"    : "eslint src",
+        "pretest" : "pnpm lint",
+        "build"   : "cross-env REFINE_NO_TELEMETRY=true vite build",
+        "start"   : "cross-env REFINE_NO_TELEMETRY=true vite",
+        "serve"   : "cross-env REFINE_NO_TELEMETRY=true vite preview"
+    },
+    "dependencies"    : {
+        "@sentry/react" : "^10.46.0",
+        "antd"          : "^6.3.4",
+        "i18next"       : "^25.10.10",
+        "react"         : "^19.2.4",
+        "react-dom"     : "^19.2.4",
+        "react-i18next" : "^16.6.6"
+    },
+    "devDependencies" : {
+        "@eslint/eslintrc"           : "^3.3.5",
+        "@eslint/js"                 : "^10.0.1",
+        "@stylistic/eslint-plugin"   : "^5.10.0",
+        "@testing-library/jest-dom"  : "^6.9.1",
+        "@testing-library/react"     : "^16.3.2",
+        "@types/react"               : "^19.2.14",
+        "@types/react-dom"           : "^19.2.3",
+        "@types/react-test-renderer" : "^19.1.0",
+        "@typescript-eslint/parser"  : "^8.57.2",
+        "@vitejs/plugin-react-swc"   : "^4.3.0",
+        "@vitest/coverage-v8"        : "^4.1.2",
+        "@vitest/ui"                 : "^4.1.2",
+        "cross-env"                  : "^10.1.0",
+        "eslint"                     : "~9.39.4",
+        "eslint-plugin-import"       : "^2.32.0",
+        "eslint-plugin-prefer-arrow" : "^1.2.3",
+        "eslint-plugin-react"        : "^7.37.5",
+        "eslint-plugin-react-hooks"  : "^7.0.1",
+        "eslint-plugin-unicorn"      : "^63.0.0",
+        "globals"                    : "^17.4.0",
+        "jsdom"                      : "^29.0.1",
+        "prop-types"                 : "^15.8.1",
+        "typescript"                 : "^6.0.2",
+        "typescript-eslint"          : "^8.57.2",
+        "vite"                       : "^8.0.3",
+        "vitest"                     : "^4.1.2",
+        "vitest-fetch-mock"          : "^0.4.5"
+    },
+    "engines"         : {
+        "node" : ">=22",
+        "pnpm" : ">=10"
+    }
+}

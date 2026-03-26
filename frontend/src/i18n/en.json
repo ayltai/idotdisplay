@@ -1,0 +1,8 @@
+{
+    "label.power"           : "Power",
+    "label.display"         : "Display",
+    "label.display.clock"   : "Clock",
+    "label.display.artwork" : "Arts",
+    "label.display.seasons" : "Seasons",
+    "label.display.games"   : "Games"
+}
