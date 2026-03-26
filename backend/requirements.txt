@@ -1,5 +1,8 @@
+apscheduler==3.11.2
 bleak==3.0.1
 fastapi==0.135.2
+httpx==0.28.1
+pillow==12.1.1
 pydantic-settings==2.13.1
 python-multipart==0.0.22
 sentry-sdk[fastapi]==2.56.0

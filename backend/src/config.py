@@ -8,5 +8,10 @@ class Config(BaseSettings):
     MAX_PACKET_SIZE : int   = 192
     WRITE_DELAY     : float = 0.1
     RECONNECT_DELAY : int   = 5
+    DISPLAY_WIDTH   : int   = 32
+    DISPLAY_HEIGHT  : int   = 32
+    LATITUDE        : float = 51.365479
+    LONGITUDE       : float = 0.211968
+    TIMEZONE        : str   = 'Europe/London'
 
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8')
