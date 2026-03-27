@@ -12,15 +12,18 @@ from .bluetooth_manager import BluetoothManager
 from .clock import draw_clock
 from .commands import GifCommand, PowerCommand
 from .config import Config
-from .constants import PATH_IMAGE_ARTS, PATH_IMAGE_GAMES, PATH_IMAGE_SEASONS
+from .constants import PATH_IMAGE_ARTS, PATH_IMAGE_CELEBRITIES, PATH_IMAGE_GAMES, PATH_IMAGE_LANDMARKS, PATH_IMAGE_SEASONS
 from .logging import log_error
 from .packet_builder import PacketBuilder
 
-JOB_KEEP_ALIVE : str = 'keep_alive'
-JOB_CLOCK      : str = 'clock'
-JOB_ARTS       : str = 'arts'
-JOB_GAMES      : str = 'games'
-JOB_SEASONS    : str = 'seasons'
+JOB_KEEP_ALIVE  : str = 'keep_alive'
+JOB_CELEBRITIES : str = 'celebrities'
+JOB_CLOCK       : str = 'clock'
+JOB_ARTS        : str = 'arts'
+JOB_GAMES       : str = 'games'
+JOB_LANDMARKS   : str = 'landmarks'
+JOB_SEASONS     : str = 'seasons'
+JOB_RANDOM      : str = 'random'
 
 config            = Config()
 bluetooth_manager = BluetoothManager(config.MAC_ADDRESS)
@@ -49,14 +52,20 @@ async def lifespan(_: FastAPI):
     scheduler.add_job(keep_alive, 'interval', seconds=5, id=JOB_KEEP_ALIVE)
     scheduler.add_job(send_clock, 'cron', minute='*', id=JOB_CLOCK)
     scheduler.add_job(send_arts, 'cron', minute='*', id=JOB_ARTS)
+    scheduler.add_job(send_celebrities, 'cron', minute='*', id=JOB_CELEBRITIES)
     scheduler.add_job(send_games, 'cron', minute='*', id=JOB_GAMES)
+    scheduler.add_job(send_landmarks, 'cron', minute='*', id=JOB_LANDMARKS)
     scheduler.add_job(send_seasons, 'cron', minute='*', id=JOB_SEASONS)
+    scheduler.add_job(start_random, 'cron', minute='*', id=JOB_RANDOM)
 
     scheduler.start()
 
     scheduler.pause_job(JOB_ARTS)
+    scheduler.pause_job(JOB_CELEBRITIES)
     scheduler.pause_job(JOB_GAMES)
+    scheduler.pause_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_RANDOM)
 
     try:
         yield
@@ -113,9 +122,12 @@ async def send_arts():
 @app.post('/api/v1/arts')
 async def start_arts():
     scheduler.pause_job(JOB_CLOCK)
-    scheduler.pause_job(JOB_GAMES)
-    scheduler.pause_job(JOB_SEASONS)
     scheduler.resume_job(JOB_ARTS)
+    scheduler.pause_job(JOB_CELEBRITIES)
+    scheduler.pause_job(JOB_GAMES)
+    scheduler.pause_job(JOB_LANDMARKS)
+    scheduler.pause_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_RANDOM)
 
     await send_arts()
 
@@ -129,6 +141,33 @@ async def stop_arts():
     return Response(status_code=200)
 
 
+@app.get('/api/v1/celebrities')
+async def send_celebrities():
+    return await _send_gif(PATH_IMAGE_CELEBRITIES[randrange(0, len(PATH_IMAGE_CELEBRITIES))].read_bytes())
+
+
+@app.post('/api/v1/celebrities')
+async def start_celebrities():
+    scheduler.pause_job(JOB_CLOCK)
+    scheduler.pause_job(JOB_ARTS)
+    scheduler.resume_job(JOB_CELEBRITIES)
+    scheduler.pause_job(JOB_GAMES)
+    scheduler.pause_job(JOB_LANDMARKS)
+    scheduler.pause_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_RANDOM)
+
+    await send_celebrities()
+
+    return Response(status_code=200)
+
+
+@app.delete('/api/v1/celebrities')
+async def stop_celebrities():
+    scheduler.pause_job(JOB_CELEBRITIES)
+
+    return Response(status_code=200)
+
+
 @app.get('/api/v1/games')
 async def send_games():
     return await _send_gif(PATH_IMAGE_GAMES[randrange(0, len(PATH_IMAGE_GAMES))].read_bytes())
@@ -138,8 +177,11 @@ async def send_games():
 async def start_games():
     scheduler.pause_job(JOB_CLOCK)
     scheduler.pause_job(JOB_ARTS)
-    scheduler.pause_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_CELEBRITIES)
     scheduler.resume_job(JOB_GAMES)
+    scheduler.pause_job(JOB_LANDMARKS)
+    scheduler.pause_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_RANDOM)
 
     await send_games()
 
@@ -153,6 +195,33 @@ async def stop_games():
     return Response(status_code=200)
 
 
+@app.get('/api/v1/landmarks')
+async def send_landmarks():
+    return await _send_gif(PATH_IMAGE_LANDMARKS[randrange(0, len(PATH_IMAGE_LANDMARKS))].read_bytes())
+
+
+@app.post('/api/v1/landmarks')
+async def start_landmarks():
+    scheduler.pause_job(JOB_CLOCK)
+    scheduler.pause_job(JOB_ARTS)
+    scheduler.pause_job(JOB_CELEBRITIES)
+    scheduler.pause_job(JOB_GAMES)
+    scheduler.resume_job(JOB_LANDMARKS)
+    scheduler.pause_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_RANDOM)
+
+    await send_landmarks()
+
+    return Response(status_code=200)
+
+
+@app.delete('/api/v1/landmarks')
+async def stop_landmarks():
+    scheduler.pause_job(JOB_LANDMARKS)
+
+    return Response(status_code=200)
+
+
 @app.get('/api/v1/seasons')
 async def send_seasons():
     return await _send_gif(PATH_IMAGE_SEASONS[randrange(0, len(PATH_IMAGE_SEASONS))].read_bytes())
@@ -162,8 +231,11 @@ async def send_seasons():
 async def start_seasons():
     scheduler.pause_job(JOB_CLOCK)
     scheduler.pause_job(JOB_ARTS)
+    scheduler.pause_job(JOB_CELEBRITIES)
     scheduler.pause_job(JOB_GAMES)
+    scheduler.pause_job(JOB_LANDMARKS)
     scheduler.resume_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_RANDOM)
 
     await send_seasons()
 
@@ -184,10 +256,13 @@ async def send_clock():
 
 @app.post('/api/v1/clock')
 async def start_clock():
-    scheduler.pause_job(JOB_ARTS)
-    scheduler.pause_job(JOB_GAMES)
-    scheduler.pause_job(JOB_SEASONS)
     scheduler.resume_job(JOB_CLOCK)
+    scheduler.pause_job(JOB_ARTS)
+    scheduler.pause_job(JOB_CELEBRITIES)
+    scheduler.pause_job(JOB_GAMES)
+    scheduler.pause_job(JOB_LANDMARKS)
+    scheduler.pause_job(JOB_SEASONS)
+    scheduler.pause_job(JOB_RANDOM)
 
     await send_clock()
 
@@ -197,5 +272,40 @@ async def start_clock():
 @app.delete('/api/v1/clock')
 async def stop_clock():
     scheduler.pause_job(JOB_CLOCK)
+
+    return Response(status_code=200)
+
+
+@app.post('/api/v1/random')
+async def start_random():
+    scheduler.pause_job(JOB_CLOCK)
+    scheduler.pause_job(JOB_ARTS)
+    scheduler.pause_job(JOB_CELEBRITIES)
+    scheduler.pause_job(JOB_GAMES)
+    scheduler.pause_job(JOB_LANDMARKS)
+    scheduler.pause_job(JOB_SEASONS)
+
+    random_job = randrange(0, 5)
+
+    if random_job == 0:
+        await send_clock()
+    elif random_job == 1:
+        await send_arts()
+    elif random_job == 2:
+        await send_celebrities()
+    elif random_job == 3:
+        await send_games()
+    elif random_job == 4:
+        await send_landmarks()
+    elif random_job == 5:
+        await send_seasons()
+
+    scheduler.resume_job(JOB_RANDOM)
+
+    return Response(status_code=200)
+
+@app.delete('/api/v1/random')
+async def stop_random():
+    scheduler.pause_job(JOB_RANDOM)
 
     return Response(status_code=200)

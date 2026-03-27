@@ -1,8 +1,11 @@
 {
-    "label.power"           : "Power",
-    "label.display"         : "Display",
-    "label.display.clock"   : "Clock",
-    "label.display.artwork" : "Arts",
-    "label.display.seasons" : "Seasons",
-    "label.display.games"   : "Games"
+    "label.power"               : "Power",
+    "label.display"             : "Display",
+    "label.display.random"      : "Random",
+    "label.display.clock"       : "Clock",
+    "label.display.artwork"     : "Arts",
+    "label.display.celebrities" : "Celebrities",
+    "label.display.games"       : "Games",
+    "label.display.landmarks"   : "Landmarks",
+    "label.display.seasons"     : "Seasons"
 }

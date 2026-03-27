@@ -5,12 +5,12 @@ import { useTranslation, } from 'react-i18next';
 import { BASE_URL, } from './constants';
 
 export const Controls = () => {
-    const [ power,   setPower,   ] = useState(true);
-    const [ display, setDisplay, ] = useState('clock');
-
     const [ messageApi, contextHolder, ] = message.useMessage();
 
     const { t, } = useTranslation();
+
+    const [ power,   setPower,   ] = useState(true);
+    const [ display, setDisplay, ] = useState(t('label.display.random'));
 
     const handlePowerChange = async (checked : boolean) => {
         try {
@@ -98,9 +98,12 @@ export const Controls = () => {
                         margin : 8,
                     }}
                     options={[
+                        t('label.display.random'),
                         t('label.display.clock'),
                         t('label.display.artwork'),
+                        t('label.display.landmarks'),
                         t('label.display.seasons'),
+                        t('label.display.celebrities'),
                         t('label.display.games'),
                     ]}
                     value={display}
