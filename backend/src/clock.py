@@ -1,5 +1,6 @@
 from datetime import datetime
 from io import BytesIO
+from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -23,7 +24,7 @@ async def draw_clock() -> bytes:
 
         font = ImageFont.load_default()
 
-    now     = datetime.now()
+    now     = datetime.now(ZoneInfo(config.TIMEZONE))
     weather = await get_weather(config.LATITUDE, config.LONGITUDE, config.TIMEZONE)
     date    = now.strftime('%d-%m').upper()
     weekday = now.strftime('%a').upper()
