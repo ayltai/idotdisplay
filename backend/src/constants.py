@@ -18,10 +18,12 @@ PATH_IMAGE_CELEBRITIES = [
     PATH_BASE / '..' / 'assets' / 'images' / 'Jarvis-Cocoker.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'John-Wick.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Thom-York.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Einstein.gif',
 ]
 
 PATH_IMAGE_GAMES = [
     PATH_BASE / '..' / 'assets' / 'images' / 'Witcher.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Terminator.gif',
 ]
 
 PATH_IMAGE_LANDMARKS = [
