@@ -9,7 +9,7 @@ extra_requirements      = read_requirements('requirements.dev.txt')
 
 setup(
     name='idotdisplay',
-    version='0.0.3',
+    version='0.0.4',
     packages=find_packages(),
     install_requires=production_requirements,
     extras_require={
