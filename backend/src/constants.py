@@ -4,6 +4,7 @@ PATH_BASE = Path(__file__).resolve().parent
 PATH_FONT = PATH_BASE / '..' / 'assets' / 'fonts' / '3x5 MT Pixel.ttf'
 
 PATH_IMAGE_ARTS = [
+    PATH_BASE / '..' / 'assets' / 'images' / 'De-Lanaye.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Girl-With-A-Pearl-Earring.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Leonardo.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Mona-Lisa.gif',
@@ -22,8 +23,11 @@ PATH_IMAGE_CELEBRITIES = [
 ]
 
 PATH_IMAGE_GAMES = [
-    PATH_BASE / '..' / 'assets' / 'images' / 'Witcher.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Batman.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Matrix.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Minion.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Terminator.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Witcher.gif',
 ]
 
 PATH_IMAGE_LANDMARKS = [
@@ -41,8 +45,10 @@ PATH_IMAGE_LANDMARKS = [
 PATH_IMAGE_SEASONS = [
     PATH_BASE / '..' / 'assets' / 'images' / 'Autumn.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Coffee.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Dog.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Flowers-1.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Flowers-2.gif',
+    PATH_BASE / '..' / 'assets' / 'images' / 'Fox.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Mountain.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Spring.gif',
     PATH_BASE / '..' / 'assets' / 'images' / 'Sunset.gif',

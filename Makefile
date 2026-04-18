@@ -1,7 +1,7 @@
 DOCKER_OWNER = ayltai
 DOCKER_REPO  = geekylifehacks
 PRODUCT_NAME = idotdisplay
-VERSION      = 0.0.4
+VERSION      = 0.0.5
 
 deploy: prune build publish
 

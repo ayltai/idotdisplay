@@ -1,6 +1,6 @@
 {
     "name"            : "idotdisplay",
-    "version"         : "0.0.4",
+    "version"         : "0.0.5",
     "author"          : {
         "name" : "Alan Tai"
     },
@@ -28,12 +28,12 @@
         "serve"   : "cross-env REFINE_NO_TELEMETRY=true vite preview"
     },
     "dependencies"    : {
-        "@sentry/react" : "^10.48.0",
-        "antd"          : "^6.3.5",
+        "@sentry/react" : "^10.49.0",
+        "antd"          : "^6.3.6",
         "i18next"       : "^26.0.5",
         "react"         : "^19.2.5",
         "react-dom"     : "^19.2.5",
-        "react-i18next" : "^17.0.3"
+        "react-i18next" : "^17.0.4"
     },
     "devDependencies" : {
         "@eslint/eslintrc"           : "^3.3.5",
@@ -53,12 +53,12 @@
         "eslint-plugin-import"       : "^2.32.0",
         "eslint-plugin-prefer-arrow" : "^1.2.3",
         "eslint-plugin-react"        : "^7.37.5",
-        "eslint-plugin-react-hooks"  : "^7.0.1",
+        "eslint-plugin-react-hooks"  : "^7.1.1",
         "eslint-plugin-unicorn"      : "^64.0.0",
         "globals"                    : "^17.5.0",
         "jsdom"                      : "^29.0.2",
         "prop-types"                 : "^15.8.1",
-        "typescript"                 : "^6.0.2",
+        "typescript"                 : "^6.0.3",
         "typescript-eslint"          : "^8.58.2",
         "vite"                       : "^8.0.8",
         "vitest"                     : "^4.1.4",
