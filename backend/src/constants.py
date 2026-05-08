@@ -1,7 +1,7 @@
 from pathlib import Path
 
 PATH_BASE = Path(__file__).resolve().parent
-PATH_FONT = PATH_BASE / '..' / 'assets' / 'fonts' / '3x5 MT Pixel.ttf'
+PATH_FONT = PATH_BASE / '..' / 'assets' / 'fonts' / 'font.ttf'
 
 PATH_IMAGE_ARTS = [
     PATH_BASE / '..' / 'assets' / 'images' / 'De-Lanaye.gif',

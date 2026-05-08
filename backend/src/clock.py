@@ -17,7 +17,7 @@ async def draw_clock() -> bytes:
     draw  = ImageDraw.Draw(image)
 
     try:
-        font = ImageFont.truetype(str(PATH_FONT), 5)
+        font = ImageFont.truetype(str(PATH_FONT), 6)
     # pylint: disable=broad-exception-caught
     except Exception as e:
         log_error(e)
@@ -31,8 +31,8 @@ async def draw_clock() -> bytes:
     time    = now.strftime('%I:%M').upper()
     part    = 'A' if now.hour < 12 else 'P'
 
-    temperature_max = str(round(weather.daily[0].temperature_max))
-    temperature_min = str(round(weather.daily[0].temperature_min))
+    temperature_max = str(round(weather.daily[0].temperature_max)) if weather.daily[0].temperature_max is not None else '-'
+    temperature_min = str(round(weather.daily[0].temperature_min)) if weather.daily[0].temperature_min is not None else '-'
     temperature     = str(round(weather.currently.temperature))
 
     with Image.open(PATH_IMAGE_WEATHER[weather.currently.weather_code]) as icon:
@@ -47,7 +47,7 @@ async def draw_clock() -> bytes:
     draw.text((2 if len(temperature) > 1 else 6, 12), f'{temperature}\'C', fill=(255, 255, 255), font=font)
     draw.text((0, 19), date, fill=(144, 164, 174), font=font)
     draw.text((21, 19), weekday, fill=(79, 195, 247) if now.weekday() == 5 else (244, 67, 54) if now.weekday() == 6 else (76, 175, 80), font=font)
-    draw.text((2, 26), time, fill=(255, 255, 255), font=font)
+    draw.text((0, 26), time, fill=(255, 255, 255), font=font)
     draw.text((21, 26), part, fill=(255, 255, 255), font=font)
 
     buffer = BytesIO()

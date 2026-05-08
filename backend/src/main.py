@@ -62,6 +62,7 @@ async def lifespan(_: FastAPI):
 
     scheduler.pause_job(JOB_ARTS)
     scheduler.pause_job(JOB_CELEBRITIES)
+    scheduler.pause_job(JOB_CLOCK)
     scheduler.pause_job(JOB_GAMES)
     scheduler.pause_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_SEASONS)
