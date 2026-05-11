@@ -29,7 +29,7 @@ async def draw_clock() -> bytes:
     date    = now.strftime('%d-%m').upper()
     weekday = now.strftime('%a').upper()
     time    = now.strftime('%I:%M').upper()
-    part    = 'A' if now.hour < 12 else 'P'
+    part    = 'NN' if now.hour == 12 else 'AM' if now.hour < 12 else 'PM'
 
     temperature_max = str(round(weather.daily[0].temperature_max)) if weather.daily[0].temperature_max is not None else '-'
     temperature_min = str(round(weather.daily[0].temperature_min)) if weather.daily[0].temperature_min is not None else '-'
