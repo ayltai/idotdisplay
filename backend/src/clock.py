@@ -44,7 +44,7 @@ async def draw_clock() -> bytes:
 
     draw.text((17 if len(temperature_max) > 1 else 21, 3), f'{temperature_max}\'C', fill=(255, 204, 128), font=font)
     draw.text((17 if len(temperature_min) > 1 else 21, 12), f'{temperature_min}\'C', fill=(100, 181, 246), font=font)
-    draw.text((2 if len(temperature) > 1 else 6, 12), f'{temperature}\'C', fill=(255, 255, 255), font=font)
+    draw.text((0 if len(temperature) > 1 else 4, 12), f'{temperature}\'C', fill=(255, 255, 255), font=font)
     draw.text((0, 19), date, fill=(144, 164, 174), font=font)
     draw.text((21, 19), weekday, fill=(79, 195, 247) if now.weekday() == 5 else (244, 67, 54) if now.weekday() == 6 else (76, 175, 80), font=font)
     draw.text((0, 26), time, fill=(255, 255, 255), font=font)

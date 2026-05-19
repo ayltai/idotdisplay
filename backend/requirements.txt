@@ -4,6 +4,6 @@ fastapi==0.136.1
 httpx==0.28.1
 pillow==12.2.0
 pydantic-settings==2.14.1
-python-multipart==0.0.28
-sentry-sdk[fastapi]==2.59.0
-uvicorn[standard]==0.46.0
+python-multipart==0.0.29
+sentry-sdk[fastapi]==2.60.0
+uvicorn[standard]==0.47.0
