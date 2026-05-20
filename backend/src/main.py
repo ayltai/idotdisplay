@@ -123,7 +123,6 @@ async def send_arts():
 @app.post('/api/v1/arts')
 async def start_arts():
     scheduler.pause_job(JOB_CLOCK)
-    scheduler.resume_job(JOB_ARTS)
     scheduler.pause_job(JOB_CELEBRITIES)
     scheduler.pause_job(JOB_GAMES)
     scheduler.pause_job(JOB_LANDMARKS)
@@ -131,6 +130,8 @@ async def start_arts():
     scheduler.pause_job(JOB_RANDOM)
 
     await send_arts()
+
+    scheduler.resume_job(JOB_ARTS)
 
     return Response(status_code=200)
 
@@ -151,13 +152,14 @@ async def send_celebrities():
 async def start_celebrities():
     scheduler.pause_job(JOB_CLOCK)
     scheduler.pause_job(JOB_ARTS)
-    scheduler.resume_job(JOB_CELEBRITIES)
     scheduler.pause_job(JOB_GAMES)
     scheduler.pause_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
     await send_celebrities()
+
+    scheduler.resume_job(JOB_CELEBRITIES)
 
     return Response(status_code=200)
 
@@ -179,12 +181,13 @@ async def start_games():
     scheduler.pause_job(JOB_CLOCK)
     scheduler.pause_job(JOB_ARTS)
     scheduler.pause_job(JOB_CELEBRITIES)
-    scheduler.resume_job(JOB_GAMES)
     scheduler.pause_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
     await send_games()
+
+    scheduler.resume_job(JOB_GAMES)
 
     return Response(status_code=200)
 
@@ -207,11 +210,12 @@ async def start_landmarks():
     scheduler.pause_job(JOB_ARTS)
     scheduler.pause_job(JOB_CELEBRITIES)
     scheduler.pause_job(JOB_GAMES)
-    scheduler.resume_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
     await send_landmarks()
+
+    scheduler.resume_job(JOB_LANDMARKS)
 
     return Response(status_code=200)
 
@@ -235,10 +239,11 @@ async def start_seasons():
     scheduler.pause_job(JOB_CELEBRITIES)
     scheduler.pause_job(JOB_GAMES)
     scheduler.pause_job(JOB_LANDMARKS)
-    scheduler.resume_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
     await send_seasons()
+
+    scheduler.resume_job(JOB_SEASONS)
 
     return Response(status_code=200)
 
@@ -257,7 +262,6 @@ async def send_clock():
 
 @app.post('/api/v1/clock')
 async def start_clock():
-    scheduler.resume_job(JOB_CLOCK)
     scheduler.pause_job(JOB_ARTS)
     scheduler.pause_job(JOB_CELEBRITIES)
     scheduler.pause_job(JOB_GAMES)
@@ -266,6 +270,8 @@ async def start_clock():
     scheduler.pause_job(JOB_RANDOM)
 
     await send_clock()
+
+    scheduler.resume_job(JOB_CLOCK)
 
     return Response(status_code=200)
 
@@ -286,7 +292,7 @@ async def start_random():
     scheduler.pause_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_SEASONS)
 
-    random_job = randrange(0, 5)
+    random_job = randrange(0, 6)
 
     if random_job == 0:
         await send_clock()
