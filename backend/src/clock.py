@@ -26,7 +26,8 @@ async def draw_clock() -> bytes:
 
     now     = datetime.now(ZoneInfo(config.TIMEZONE))
     weather = await get_weather(config.LATITUDE, config.LONGITUDE, config.TIMEZONE)
-    date    = now.strftime('%d-%m').upper()
+    day     = now.strftime('%d').upper()
+    month   = now.strftime('%b').upper()
     weekday = now.strftime('%a').upper()
     time    = now.strftime('%I:%M').upper()
     part    = 'NN' if now.hour == 12 else 'AM' if now.hour < 12 else 'PM'
@@ -45,7 +46,8 @@ async def draw_clock() -> bytes:
     draw.text((17 if len(temperature_max) > 1 else 21, 3), f'{temperature_max}\'C', fill=(255, 204, 128), font=font)
     draw.text((17 if len(temperature_min) > 1 else 21, 12), f'{temperature_min}\'C', fill=(100, 181, 246), font=font)
     draw.text((0 if len(temperature) > 1 else 4, 12), f'{temperature}\'C', fill=(255, 255, 255), font=font)
-    draw.text((0, 19), date, fill=(144, 164, 174), font=font)
+    draw.text((0, 19), day, fill=(144, 164, 174), font=font)
+    draw.text((8, 19), month, fill=(144, 164, 174), font=font)
     draw.text((21, 19), weekday, fill=(79, 195, 247) if now.weekday() == 5 else (244, 67, 54) if now.weekday() == 6 else (76, 175, 80), font=font)
     draw.text((0, 26), time, fill=(255, 255, 255), font=font)
     draw.text((21, 26), part, fill=(255, 255, 255), font=font)

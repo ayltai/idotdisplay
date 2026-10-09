@@ -66,7 +66,6 @@ async def lifespan(_: FastAPI):
     scheduler.pause_job(JOB_GAMES)
     scheduler.pause_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_SEASONS)
-    scheduler.pause_job(JOB_RANDOM)
 
     try:
         yield
@@ -129,9 +128,10 @@ async def start_arts():
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
-    await send_arts()
-
-    scheduler.resume_job(JOB_ARTS)
+    try:
+        await send_arts()
+    finally:
+        scheduler.resume_job(JOB_ARTS)
 
     return Response(status_code=200)
 
@@ -157,9 +157,10 @@ async def start_celebrities():
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
-    await send_celebrities()
-
-    scheduler.resume_job(JOB_CELEBRITIES)
+    try:
+        await send_celebrities()
+    finally:
+        scheduler.resume_job(JOB_CELEBRITIES)
 
     return Response(status_code=200)
 
@@ -185,9 +186,10 @@ async def start_games():
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
-    await send_games()
-
-    scheduler.resume_job(JOB_GAMES)
+    try:
+        await send_games()
+    finally:
+        scheduler.resume_job(JOB_GAMES)
 
     return Response(status_code=200)
 
@@ -213,9 +215,10 @@ async def start_landmarks():
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
-    await send_landmarks()
-
-    scheduler.resume_job(JOB_LANDMARKS)
+    try:
+        await send_landmarks()
+    finally:
+        scheduler.resume_job(JOB_LANDMARKS)
 
     return Response(status_code=200)
 
@@ -241,9 +244,10 @@ async def start_seasons():
     scheduler.pause_job(JOB_LANDMARKS)
     scheduler.pause_job(JOB_RANDOM)
 
-    await send_seasons()
-
-    scheduler.resume_job(JOB_SEASONS)
+    try:
+        await send_seasons()
+    finally:
+        scheduler.resume_job(JOB_SEASONS)
 
     return Response(status_code=200)
 
@@ -269,9 +273,10 @@ async def start_clock():
     scheduler.pause_job(JOB_SEASONS)
     scheduler.pause_job(JOB_RANDOM)
 
-    await send_clock()
-
-    scheduler.resume_job(JOB_CLOCK)
+    try:
+        await send_clock()
+    finally:
+        scheduler.resume_job(JOB_CLOCK)
 
     return Response(status_code=200)
 
@@ -294,20 +299,21 @@ async def start_random():
 
     random_job = randrange(0, 6)
 
-    if random_job == 0:
-        await send_clock()
-    elif random_job == 1:
-        await send_arts()
-    elif random_job == 2:
-        await send_celebrities()
-    elif random_job == 3:
-        await send_games()
-    elif random_job == 4:
-        await send_landmarks()
-    elif random_job == 5:
-        await send_seasons()
-
-    scheduler.resume_job(JOB_RANDOM)
+    try:
+        if random_job == 0:
+            await send_clock()
+        elif random_job == 1:
+            await send_arts()
+        elif random_job == 2:
+            await send_celebrities()
+        elif random_job == 3:
+            await send_games()
+        elif random_job == 4:
+            await send_landmarks()
+        elif random_job == 5:
+            await send_seasons()
+    finally:
+        scheduler.resume_job(JOB_RANDOM)
 
     return Response(status_code=200)
 

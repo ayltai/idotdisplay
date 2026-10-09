@@ -1,9 +1,9 @@
-apscheduler==3.11.2
+apscheduler==3.11.3
 bleak==3.0.2
-fastapi==0.136.1
+fastapi==0.143.0
 httpx==0.28.1
-pillow==12.2.0
-pydantic-settings==2.14.1
-python-multipart==0.0.29
-sentry-sdk[fastapi]==2.60.0
-uvicorn[standard]==0.47.0
+pillow==12.3.0
+pydantic-settings==2.15.0
+python-multipart==0.0.32
+sentry-sdk[fastapi]==2.71.0
+uvicorn[standard]==0.54.0
